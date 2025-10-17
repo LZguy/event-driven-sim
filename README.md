@@ -1,87 +1,69 @@
-# Event-Driven Logic Simulator
+# Event-Driven Logic Simulation (HCM-based)
 
-An **event-driven simulator** for gate-level digital circuits.  
-The tool uses the **HCM – Hierarchical Connectivity Model** library to parse and flatten Verilog netlists, simulate them over time with event scheduling, and produce waveform outputs (VCD format).
+This project implements an **event-driven simulator** for gate-level Verilog circuits,
+using the **Hierarchical Connectivity Model (HCM)** library.  
+It parses structural Verilog netlists, applies test vectors, and outputs simulation results
+in **VCD format**.
 
-> ⚠️ Note: This repository contains **only my implementation and report**.  
-> Standard cell libraries, test benches, and course-provided materials are **not included**.  
-> To run the simulator, place your own Verilog benchmarks under `examples/`.
+⚠️ **Note**: The HCM library is not publicly available. External users may not be able
+to compile this code. See: [HCM documentation](https://focused-lalande-5a6539.netlify.app/index.html).
 
 ---
 
-## 📑 Overview
+## 📖 Overview
+- Reads structural Verilog circuits using **HCM**.
+- Accepts test vectors (`.vec.txt`) and signal definitions (`.sig.txt`).
+- Simulates the circuit with an **event-driven algorithm**:
+  - Maintains queues for **events** (node value changes) and **gates** (whose inputs changed).
+  - Updates only gates affected by an event (efficient vs. compiled simulation).
+- Dumps simulation results to `<top>.vcd`.
 
-- Implements an **event-driven simulation kernel**:  
-  - Uses a **priority queue** of scheduled events (time, signal changes).  
-  - At each step, events are popped in chronological order, updating affected nodes.  
-  - Gates are evaluated lazily only when inputs change.  
-
-- Supports:
-  - **Structural Verilog parsing** via HCM.  
-  - Logic primitives (AND, OR, NAND, NOR, INV, BUF, XOR).  
-  - Constant sources (VDD, VSS).  
-  - Dumping signal transitions into a **VCD file** for waveform inspection.  
-
-- Output can be viewed in waveform viewers such as **GTKWave**.
+Implementation highlights:
+- Flat netlist construction with `hcmFlatten`.
+- `hcmsigvec` for parsing input vectors.
+- `hcmvcd` for generating waveforms.
+- Flip-flops initialized to **0** by default, following assignment requirements.
 
 ---
 
 ## 📂 Project Structure
-
 ```
 event-driven-sim/
 ├─ docs/
-│ └─ HW2.pdf # My report
+│ └─ HW2.pdf # my report (no course handout)
 ├─ src/
-│ ├─ HW2ex1.cc # My implementation (uses HCM)
-│ └─ Makefile # Build script
-├─ submission/
-│ └─ wet02_313551186_207910738.tar.gz # Original submission archive
-├─ examples/
-│ └─ (optional) place benchmark netlists here if you have access
+│ ├─ HW2ex1.cc # event-driven simulator (uses HCM)
+│ └─ stdcell_FF.v # updated DFF model (required for assignment)
+├─ tools/
+│ └─ Makefile # build script (expects HCM installed)
+├─ results/
+│ └─ (optional VCD outputs, e.g., TopLevel2806.vcd, TopLevel3540.vcd)
 ├─ .gitignore
 ├─ LICENSE
 └─ README.md
 ```
 
-> **Note:** Standard cell libraries and Verilog test files from the assignment are **not included**.  
-> If you have access, put them under `examples/` before running.
-
 ---
 
-## ⚙️ Build Instructions
-
-This project assumes HCM headers and libraries are installed on your system.
-
+## ⚙️ Build & Run
 ```bash
-cd src
+# Build (requires HCM installed and HCMPATH set)
 make
+
+# Run simulator
+./event_sim <top-cell> <signals.sig.txt> <vectors.vec.txt> stdcell.v <verilog_files...>
+
+# Example (assignment self-test)
+./event_sim TopLevel2806 c2806.sig.txt c2806.vec.txt stdcell.v c2806.v
+./event_sim TopLevel3540 c3540.sig.txt c3540.vec.txt stdcell.v c3540.v
 ```
-This will compile the simulator using the provided Makefile.
+
+The program produces TopLevel2806.vcd, TopLevel3540.vcd, etc.
+You can view waveforms using VSCode WaveTrace Extension or GTKWave.
 
 ---
 
-## ▶️ Usage
-
-Run the simulator on a given netlist and testbench:
-```bash
-./event_sim <top_module> stdcell.v design.v testbench.v
-```
-
-The program will:
-1. Parse and flatten the design with HCM.
-2. Schedule and process events over time.
-3. Write signal transitions into output.vcd.
-
-You can then view results with GTKWave:
-```bash
-gtkwave output.vcd
-```
-
----
-
-## 🔑 Dependencies
-
-- **HCM – Hierarchical Connectivity Model:**
-Library used for netlist parsing and connectivity.
-Documentation: https://focused-lalande-5a6539.netlify.app/index.html
+## 🚫 Not Included
+- Original course handouts (02971189_313551186_6744_210220241342.pdf).
+- Official test files (Test files (W2025)-20251017.zip).
+➝ Place them under examples/ if you have access.
