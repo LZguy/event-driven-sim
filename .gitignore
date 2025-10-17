@@ -79,3 +79,18 @@ examples/*.vh
 .idea/
 *.swp
 *.swo
+
+# Build artifacts
+*.o
+event_sim
+*.out
+*.exe
+
+# Simulation outputs
+*.vcd
+*.log
+*.rpt
+
+# Archives
+*.tar.gz
+*.zip
