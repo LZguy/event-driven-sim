@@ -1,3 +1,6 @@
+# ----------------------------
+# Standard C/C++ ignores
+# ----------------------------
 # Prerequisites
 *.d
 
@@ -16,6 +19,7 @@
 
 # Debugger Files
 *.pdb
+*.dwo
 
 # Compiled Dynamic libraries
 *.so
@@ -37,5 +41,41 @@
 *.out
 *.app
 
-# debug information files
-*.dwo
+# Debug folders
+*.dSYM/
+
+# ----------------------------
+# Build artifacts
+# ----------------------------
+build/
+bin/
+*.log
+*.rpt
+
+# ----------------------------
+# Project-specific ignores
+# ----------------------------
+# SAT-FEV generated files
+*.cnf
+
+# Event-driven sim outputs (VCD waveforms, traces)
+*.vcd
+*.vvp
+
+# Benchmarks / examples (not included in repo)
+examples/*.zip
+examples/*.v
+examples/*.sv
+examples/*.vh
+
+# Course test files archives (not included)
+*.tar
+*.tar.gz
+
+# ----------------------------
+# IDE / editor junk
+# ----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
