@@ -66,6 +66,7 @@ You can view waveforms using VSCode WaveTrace Extension or GTKWave.
 ---
 
 ## 🚫 Not Included
-- Original course handouts (02971189_313551186_6744_210220241342.pdf).
-- Official test files (Test files (W2025)-20251017.zip).
-➝ Place them under examples/ if you have access.
+- Original assignment handout and official test files (c2806, c3540, stdcell.v, etc.)
+- Binary (`event_sim`) and intermediate object files (`*.o`).
+- Waveform outputs (`*.vcd`) are not stored in this repo. If you want to reproduce,
+  run the simulator with the official test vectors and view results in GTKWave or VSCode.
