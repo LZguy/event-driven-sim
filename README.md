@@ -36,6 +36,8 @@ event-driven-sim/
 │ └─ stdcell_FF.v # updated DFF model (required for assignment)
 ├─ tools/
 │ └─ Makefile # build script (expects HCM installed)
+├─ examples/
+│  └─ (place course test files here if you have access)
 ├─ results/
 │ └─ (optional VCD outputs, e.g., TopLevel2806.vcd, TopLevel3540.vcd)
 ├─ .gitignore
